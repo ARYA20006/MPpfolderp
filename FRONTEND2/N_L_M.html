@@ -5,149 +5,388 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Navigating to Local Market</title>  
     <style>
-    /* Existing CSS... */  
-        .modal {  
-            display: none;   
-            position: fixed;   
-            z-index: 1;   
-            left: 0;  
-            top: 0;  
-            width: 100%;   
-            height: 100%;   
-            overflow: auto;   
-            background-color: rgb(0,0,0);   
-            background-color: rgba(0,0,0,0.4);   
-        }  
-        
-        .modal-content {  
-            background-color: #fefefe;  
-            margin: 15% auto;   
-            padding: 20px;  
-            border: 1px solid #888;  
-            width: 80%;   
-        }  
-        
-        .close {  
-            color: #aaa;  
-            float: right;  
-            font-size: 28px;  
-            font-weight: bold;  
-        }  
-        
-        .close:hover,  
-        .close:focus {  
-            color: black;  
-            text-decoration: none;  
-            cursor: pointer;  
-        }  
-        
-        .item {  
-            padding: 10px;  
-            border: 1px solid #ddd;  
-            margin: 5px 0;  
+        /* Reset and Box Sizing */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-    </style>  
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Header Styles */
+        .header {
+            position: sticky;
+            top: 0;
+            background: #333;
+            color: #fff;
+            transition: height 0.3s;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #00bfff;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+
+        .services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .service-card {
+            flex: 1 1 calc(25% - 20px);
+            background: #f1f1f1;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Call to Action Banner */
+        .cta-banner {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .cta-button {
+            background-color: #fff;
+            color: #007BFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .modal button {
+            margin: 10px 0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        .modal button:hover {
+            background-color: #0056b3;
+        }
+
+        .category-button {
+            margin: 20px auto;
+            padding: 15px 30px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: block;
+            text-align: center;
+            width: fit-content;
+            cursor: pointer;
+        }
+
+        .category-button:hover {
+            background-color: #218838;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #00bfff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .service-card {
+                flex: 1 1 100%;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar h1 {
+                margin-bottom: 10px;
+            }
+
+            .all-services-btn {
+                padding: 15px;
+                font-size: 20px;
+            }
+        }
+
+        .all-services-btn {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            background: #007BFF;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .all-services-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+
 </head>  
 <body>  
-    <header>  
-        <div class="logo">Website Logo</div>  
-        <div class="search-bar">  
-            <input type="text" id="search" placeholder="Search...">  
-            <button id="searchBtn">Search</button>  
+<!-- Role Selection Modal -->  
+<div id="roleSelectionModal" class="modal">  
+<div class="modal-content">  
+    <span class="close" id="closeRoleModal">&times;</span>  
+    <h2>Select Your Role</h2>  
+    <button class="role-button" onclick="openVendorModal()">Vendor</button>  
+    <button class="role-button" onclick="openSellerModal()">Seller</button>  
+    <button class="role-button" onclick="openUserModal()">User</button>  
+    <button class="role-button" onclick="openTmModal()">T&M</button>  
+</div>  
+</div>  
+
+<!-- Sign Up Modal for Vendor -->  
+<div id="signupVendorModal" class="modal">  
+<div class="modal-content">  
+    <span class="close" id="closeSignupVendorModal">&times;</span>  
+    <h2>Vendor Sign Up</h2>  
+    <form id="signupVendorForm">  
+        <input type="text" placeholder="Username" required>  
+        <input type="password" placeholder="Password" required>  
+        <button type="submit">Sign Up</button>  
+    </form>  
+</div>  
+</div>  
+
+<!-- Login Modal for Vendor -->  
+<div id="loginVendorModal" class="modal">  
+<div class="modal-content">  
+    <span class="close" id="closeLoginVendorModal">&times;</span>  
+    <h2>Vendor Login</h2>  
+    <form id="loginVendorForm">  
+        <input type="text" placeholder="Username" required>  
+        <input type="password" placeholder="Password" required>  
+        <button type="submit">Login</button>  
+    </form>  
+</div>  
+</div>  
+
+<!-- Repeat similar modals for Seller, User, and T&M ... -->  
+<!-- Insert similar modals for Seller, User, and T&M here... -->  
+
+<header class="header">  
+<nav class="navbar">  
+    <h1>Company Name</h1>  
+    <ul>  
+        <li><a href="#">Home</a></li>  
+        <li><a href="#">Services</a></li>  
+        <li><a href="#">About</a></li>  
+        <li><a href="#">Contact</a></li>  
+    </ul>  
+</nav>  
+</header>  
+
+<main class="main-content">  
+<section class="trending">  
+    <article class="all-browsers">  
+        <h2>Trending</h2>  
+        <div class="trending-items">  
+            <div class="item">Grocery Item 1</div>  
+            <div class="item">Appliance Item 1</div>  
+            <div class="item">Hospital Service 1</div>  
         </div>  
-        <div class="login-menu">  
-            <a href="#" class="login" id="openLoginModal">Login</a>  
-            <a href="#">Vendor Login</a>  
-            <a href="#">Seller Login</a>  
-        </div>  
-    </header>  
-    
-    <nav>  
-        <ul>  
-            <li><a href="#">Grocery</a></li>  
-            <li><a href="#">Appliance</a></li>  
-            <li><a href="#">Temple</a></li>  
-            <li><a href="#">Hospital</a></li>  
-            <li><a href="#">Showroom</a></li>  
-            <li><a href="#">Hotel</a></li>  
-        </ul>  
-    </nav>  
+    </article>  
+</section>  
 
-    <main>  
-        <section class="trending">  
-            <h2>Trending</h2>  
-            <div class="trending-items">  
-                <div class="item">Grocery Item 1</div>  
-                <div class="item">Appliance Item 1</div>  
-                <div class="item">Hospital Service 1</div>  
-            </div>  
-        </section>  
+<div class="services">  
+    <div class="service-card">  
+        <div class="icon">🌐</div>  
+        <h2>Web Development</h2>  
+        <p>Building responsive and efficient web solutions.</p>  
+    </div>  
+    <div class="service-card">  
+        <div class="icon">📱</div>  
+        <h2>Mobile Development</h2>  
+        <p>Creating engaging mobile applications for all platforms.</p>  
+    </div>  
+    <div class="service-card">  
+        <div class="icon">📈</div>  
+        <h2>Digital Marketing</h2>  
+        <p>Boost your business with effective digital marketing strategies.</p>  
+    </div>  
+    <div class="service-card">  
+        <div class="icon">🔒</div>  
+        <h2>Cybersecurity</h2>  
+        <p>Your data protection is our priority.</p>  
+    </div>  
+</div>  
 
-        <section class="top-story">  
-            <h2>Top Story: Brand Directories</h2>  
-            <p>NLM: One Stop Destination</p>  
-        </section>  
-    </main>  
+<button class="all-services-btn" onclick="showCategoryServices()">Grocery, Appliance, Temple, Hospital, Showroom, Hotel</button>  
 
-    <footer>  
-        <p><a href="#">Terms</a> | <a href="#">Privacy Policy</a> | <a href="#">About</a> | <a href="#">Customer Policies</a> | <a href="#">Social Media</a></p>  
-    </footer>  
+</main>  
 
-    <!-- Login Modal -->  
-    <div id="loginModal" class="modal">  
-        <div class="modal-content">  
-            <span class="close" id="closeModal">&times;</span>  
-            <h2>Login</h2>  
-            <form id="loginForm">  
-                <input type="text" placeholder="Username" required>  
-                <input type="password" placeholder="Password" required>  
-                <button type="submit">Submit</button>  
-            </form>  
-        </div>  
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {  
-        // Search functionality  
-        const searchBtn = document.getElementById('searchBtn');  
-        const searchInput = document.getElementById('search');  
-    
-        searchBtn.addEventListener('click', function() {  
-            const query = searchInput.value;  
-            alert("Search function not implemented yet. You searched for: " + query);  
-            searchInput.value = ''; // Clear input after search  
-        });  
-    
-        // Modal functionality  
-        const modal = document.getElementById('loginModal');  
-        const openModalButton = document.getElementById('openLoginModal');  
-        const closeModalButton = document.getElementById('closeModal');  
-        const loginForm = document.getElementById('loginForm');  
-    
-        // Open modal  
-        openModalButton.addEventListener('click', function(e) {  
-            e.preventDefault(); // Prevent default link behavior  
-            modal.style.display = "block";  
-        });  
-    
-        // Close modal  
-        closeModalButton.addEventListener('click', function() {  
-            modal.style.display = "none";  
-        });  
-    
-        // Close modal when clicking outside  
-        window.addEventListener('click', function(event) {  
-            if (event.target == modal) {  
-                modal.style.display = "none";  
-            }  
-        });  
-    
-        // Handle the form submission (just an alert for now)  
-        loginForm.addEventListener('submit', function(e) {  
-            e.preventDefault(); // Prevent form submission to server  
-            alert("Login submitted!");  
-            modal.style.display = "none"; // Close modal after submission  
-        });  
-    });
-    </script>   
+<section class="cta-banner">  
+<h2>Ready to Get Started?</h2>  
+<button class="cta-button" onclick="document.getElementById('roleSelectionModal').style.display='flex'">Contact Us</button>  
+</section>  
+
+<footer>  
+<article class="all-browsers">  
+    <h1>Terms & Conditions | Policies</h1>  
+    <article class="browser">  
+        <h2>  
+            <a href="#">Terms</a>  
+            <a href="#">Privacy Policy</a>  
+            <a href="#">Customer Policies</a>  
+        </h2>  
+    </article>  
+    <h1>Top Story: Brand Directories</h1>  
+    <h1>NLM: One Stop Destination</h1>  
+    <h2><a href="#">About</a>|<a href="#">Social Media</a></h2>  
+</article>  
+</footer>  
+
+<script>  
+document.addEventListener('DOMContentLoaded', function () {  
+    const roleSelectionModal = document.getElementById('roleSelectionModal');  
+    const closeRoleModal = document.getElementById('closeRoleModal');  
+
+    closeRoleModal.addEventListener('click', function () {  
+        roleSelectionModal.style.display = "none";  
+    });  
+
+    // Function to open the Vendor login/signup modal  
+    function openVendorModal() {  
+        const isRegular = confirm("Are you a regular vendor?");  
+        if (isRegular) {  
+            document.getElementById('loginVendorModal').style.display = "flex"; // Show login modal  
+        } else {  
+            document.getElementById('signupVendorModal').style.display = "flex"; // Show signup modal  
+        }  
+    }  
+
+    // Add similar functions for Seller, User, and T&M...  
+
+    // Function for showing the combined category button  
+    function showCategoryServices() {  
+        // Add logic here to redirect to the relevant sections or pages  
+        alert("Navigating to Grocery, Appliance, Temple, Hospital, Showroom, and Hotel services.");  
+    }  
+
+    // Close modal when clicking outside  
+    window.addEventListener('click', function (event) {  
+        if (event.target === roleSelectionModal) {  
+            roleSelectionModal.style.display = "none";  
+        }  
+        // Add checks for other modals...  
+    });  
+});  
+
+// Other necessary JavaScript operations for forms and modals will go here...  
+</script>  
 </body>  
 </html>
